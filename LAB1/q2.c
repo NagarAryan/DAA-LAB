@@ -10,19 +10,21 @@ int main()
     {
         scanf("%d", &ar[i]);
     }
-    int max = ar[0];
-    int secondmax = ar[0];
+    int max =ar[0];
+    int secondmax =ar[size-2];
     for (i = 0; i < size; i++)
     {
         if (ar[i] > max)
-        {
+        {   
+            secondmax=max;
             max = ar[i];
         }
         if (ar[i] = !max && ar[i] > secondmax)
-        {
+        {  
             secondmax = ar[i];
         }
     }
+    printf("%d\n%d",max,secondmax);
     int maxsum = 0;
     maxsum = max + secondmax;
     printf("The max sum is :- %d", maxsum);
