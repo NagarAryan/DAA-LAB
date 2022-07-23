@@ -1,15 +1,35 @@
-#include<stdio.h>
+#include <stdio.h>
+#define MAX 100
 int main()
-{   
-    char name[20];
-    printf("Enter your Name \n");
-    scanf("%[^\n]s",&name);
-    printf("%s",name);
-    int i=0;
-    for(i=0;i<20;i++)
+{
+    char str[MAX] = {0};
+    int i;
+    printf("Enter your name : ");
+    scanf("%[^\n]s", str);
+    for (i = 0; str[i] != '\0'; i++)
     {
-       if(name[i]==' ' && name[i+1]>97)
-       name[i]=name[i];
+        if (i == 0)
+        {
+            if ((str[i] >= 'a' && str[i] <= 'z'))
+                str[i] = str[i] - 32;
+            continue;
+        }
+
+        if (str[i] == ' ')
+        {
+            ++i;
+            if (str[i] >= 'a' && str[i] <= 'z')
+            {
+                str[i] = str[i] - 32;
+                continue;
+            }
+        }
+        else
+        {
+            if (str[i] >= 'A' && str[i] <= 'Z')
+                str[i] = str[i] + 32;
+        }
     }
+    printf("Capitalize string is: %s\n", str);
     return 0;
 }
