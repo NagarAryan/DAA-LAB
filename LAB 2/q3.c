@@ -1,97 +1,105 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct TreeNode
+
+struct Node
 {
     int data;
-    struct TreeNode *left, *right;
-    int is_leaf;
-}TreeNode;
-TreeNode *make_treenode(int data)
-{
-    TreeNode *node = (TreeNode *)calloc(1, sizeof(TreeNode));
-    node->data = data;
-    node->left = node->right = NULL;
-    node->is_leaf = 1;
-    return node;
-    T
-}
-void TreeNode *insert_bst(TreeNode *root, int data)
-{
-    if (!root)
-    {
+    struct Node *left;
+    struct Node *right;
+};
 
-        root = make_treenode(data);
-        return root;
-    }
-    else
-    {
-        TreeNode *node = make_treenode(data);
-        TreeNode *temp = root;
-        while (temp)
-        {
-            if (temp->is_leaf)
-            {
-                if (temp->data > data)
-                {
+void inorderTraverse(struct Node *root)
+{
 
-                    temp->left = node;
-                    temp->is_leaf = 0;
-                    break;
-                }
-                else
-                {
-                    temp->right = node;
-                    temp->is_leaf = 0;
-                    break;
-                }
-            }
-            else
-            {
-                if (temp->data > data)
-                {
-                    if (temp->left == NULL)
-                    {
-                        temp->left = node;
-                        break;
-                    }
-                    temp = temp->left;
-                }
-                else
-                {
-                    if (temp->right == NULL)
-                    {
-                        temp->right = node;
-                        break;
-                    }
-                    temp = temp->right;
-                }
-            }
-        }
-    }
-    return root;
-}
-void print_bst(TreeNode* root) {
-    if (!root)
+    if (root == NULL)
+    {
         return;
-    print_bst(root->left);
-    printf("Node: %d -> ", root->data);
-    print_bst(root->right);
+    }
+
+    inorderTraverse(root->left);
+    printf("%d ", root->data);
+    inorderTraverse(root->right);
 }
+
+int  maxElement(struct Node*root){
+    if(root->right==NULL){
+        return root->data;
+
+    }
+  maxElement(root->right);
+
+}
+
+int  minElement(struct Node*root){
+    if(root->left==NULL){
+        return root->data;
+
+    }
+  minElement(root->left);
+
+}
+
+struct Node *insert(struct Node *root, int data)
+{
+
+    if (root == NULL)
+    {
+        struct Node *temp = (struct Node *)malloc(sizeof(struct Node));
+        temp->data = data;
+        temp->left = NULL;
+        temp->right = NULL;
+        return temp;
+    }
+    else if (root->data < data)
+    {
+
+        root->right = insert(root->right, data);
+    }
+    else if (root->data > data)
+    {
+        root->left = insert(root->left, data);
+    }
+}
+
 int main()
 {
 
-    while (n != 0)
-    {
-        printf("Enter the value 1 to enter into the BST and 0 to stop");
-        int choice;
-        scanf("%d", &choice);
-        if(choice==1)
-        {
-TreeNode *root = make_treenode(45);
-root = insert_bst(root, 20);
-    }
-    else
-    print_bst(root);
+    struct Node *root = NULL;
+    int input;
+    int counter = 0;
 
-    return 0;
+    do
+    {
+
+        counter++;
+        printf("\nPress 0 to exit\nPress 1 to insert a node\nPress 2 to travese the tree\nPress 3 to find the max Element\nPress 4 to find the min Element\n");
+        scanf("%d", &input);
+        if (input == 1)
+        {
+            int temp;
+
+            printf("Enter the value of the node\n");
+            scanf("%d", &temp);
+            if (counter == 1)
+            {
+                root = insert(root, temp);
+            }
+            else
+            {
+                insert(root, temp);
+            }
+        }
+        else if (input == 2)
+        {
+            inorderTraverse(root);
+        }else if(input==3){
+            int res=maxElement(root);
+            printf("%d\n",res);
+        }else if(input==4){
+            int res=minElement(root);
+            printf("%d\n",res);
+        }
+
+    } while (input != 0);
+
 }

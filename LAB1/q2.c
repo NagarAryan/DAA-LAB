@@ -24,7 +24,6 @@ int main()
             secondmax = ar[i];
         }
     }
-    printf("%d\n%d",max,secondmax);
     int maxsum = 0;
     maxsum = max + secondmax;
     printf("The max sum is :- %d", maxsum);
