@@ -72,7 +72,7 @@ int main()
     {
 
         counter++;
-        printf("\nPress 0 to exit\nPress 1 to insert a node\nPress 2 to travese the tree\nPress 3 to find the max Element\nPress 4 to find the min Element\n");
+        printf("\nPress 0 to exit\nPress 1 to insert a node\nPress 2 to traverse the tree\nPress 3 to find the max Element\nPress 4 to find the min Element\n");
         scanf("%d", &input);
         if (input == 1)
         {
