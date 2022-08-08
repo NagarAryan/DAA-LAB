@@ -1,11 +1,5 @@
 {
     "files.exclude": {
-        "**/*.class": true,
         "**/*.exe": true
-    },
-    "cSpell.words": [
-        "maxp",
-        "secondmax",
-        "secondmaxp"
-    ]
+    }
 }

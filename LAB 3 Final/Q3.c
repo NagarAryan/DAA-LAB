@@ -36,8 +36,6 @@ void insertionSortDsc(long int arr[], long int n)
         arr[j + 1] = key;
     }
 }
-
-// Driver code
 int main()
 {
     long int n = 5000;
