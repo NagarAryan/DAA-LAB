@@ -62,16 +62,31 @@ void tabularOutput()
         t1 = clock() - t1;
         printf("%d\t\t%d\t\t%0.2f\n", count, i, (double)t1);
         count++;
-        clock_t t2;
-        t2 = clock();
+    }
+    
+}
+void tabularOutput2()
+{
+    printf("Sl no.\t\tn\t\tTime Complexity\n");
+    int count = 1;
+    for (int i = 5000; i <= 50000; i += 5000)
+    {
+        int *arr = (int *)malloc(i * sizeof(int));
+        for (int j = 0; j < i; j++)
+        {
+            arr[j] = rand() % i;
+        }
         bubbleSort(arr, i);
+        clock_t t1 = clock();
         heapSort(arr, i);
-        t2 = clock() - t2;
-        printf("%d\t\t%d\t\t%0.2f\n", count, i, (double)t2);
-            }
+        t1 = clock() - t1;
+        printf("%d\t\t%d\t\t%0.2f\n", count, i, (double)t1);
+        count++;
+    }
 }
 int main()
 {
     tabularOutput();
+    tabularOutput2();
     return 0;
 }

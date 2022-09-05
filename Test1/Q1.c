@@ -1,13 +1,13 @@
 #include <stdio.h>
 int main()
 {
-    printf("Enter the size of the array :\n");
     int n;
+    printf("Enter the size of the array :\n");
     scanf("%d\n",&n);
     int ar[n];
-    for (int i = 0; i < n; ++i)
+    for (int i = 0; i < n; i++)
     {
-        scanf("%d\n", &ar[i]);
+        scanf("%d",&ar[i]);
     }
     int product = 1;
     for (int i = 0; i < n; i++)
