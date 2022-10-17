@@ -1,12 +1,12 @@
-#include<stdio.h>
+#include <stdio.h>
 int brute(int a, int n)
 {
-    int res=a;
-    if(n==1)
-    return a;
+    int res = a;
+    if (n == 1)
+        return a;
     for (int i = 2; i <= n; i++)
     {
-        res=res*a;
+        res = res * a;
     }
     return res;
 }
