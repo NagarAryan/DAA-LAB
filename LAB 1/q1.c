@@ -16,7 +16,7 @@ int main()
     scanf("%d", &element);
     for (i = 0; i < size; i++)
     {
-        if (ar[i] == element)
+        if (ar[i] == element) 
         {
             flag = 1;
             i = i + 1;
