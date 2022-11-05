@@ -18,7 +18,7 @@ int main()
         temp[i] = burst_time[i];
     }
     burst_time[9] = 9999;
-    for (time = 0; count != limit; time++)
+    for(time = 0; count != limit; time++)
     {
         smallest = 9;
         for (i = 0; i < limit; i++)
