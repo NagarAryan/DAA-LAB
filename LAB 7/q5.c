@@ -6,14 +6,14 @@ int main()
     int i, smallest, count = 0, time, limit;
     double wait_time = 0, turnaround_time = 0, end;
     float average_waiting_time, average_turnaround_time;
-    printf("nEnter the Total Number of Processes:t");
+    printf("Enter the Total Number of Processes:\n");
     scanf("%d", &limit);
-    printf("nEnter Details of %d Processesn", limit);
+    printf("Enter Details of %d Processes\n", limit);
     for (i = 0; i < limit; i++)
     {
-        printf("nEnter Arrival Time:t");
+        printf("Enter Arrival Time:\n");
         scanf("%d", &arrival_time[i]);
-        printf("Enter Burst Time:t");
+        printf("Enter Burst Time:t\n");
         scanf("%d", &burst_time[i]);
         temp[i] = burst_time[i];
     }
@@ -39,7 +39,7 @@ int main()
     }
     average_waiting_time = wait_time / limit;
     average_turnaround_time = turnaround_time / limit;
-    printf("nnAverage Waiting Time:t%lfn", average_waiting_time);
-    printf("Average Turnaround Time:t%lfn", average_turnaround_time);
+    printf("Average Waiting Time:t%lf\n", average_waiting_time);
+    printf("Average Turnaround Time:t%lf\n", average_turnaround_time);
     return 0;
 }
