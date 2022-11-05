@@ -1,67 +1,112 @@
+#include <string.h>
 #include <stdio.h>
-void swap(int *xp, int *yp)
+#include <stdlib.h>
+typedef struct node
 {
-    int temp = *xp;
-    *xp = *yp;
-    *yp = temp;
-}
-void bubbleSort(int arrF[], int arrS[], int n)
-{
-    int i, j;
-    for (i = 0; i < n - 1; i++)
-    {
-        for (j = 0; j < n - i - 1; j++)
-        {
-            if (arrF[j] > arrF[j + 1])
-            {
-                swap(&arrF[j], &arrF[j + 1]);
-                swap(&arrS[j], &arrS[j + 1]);
-            }
-        }
-    }
-}
-void Activity(int start[], int finish[], int n)
-{
-    int i = 0;
-    printf("%d ", i);
-    int startTime = start[0];
-    int finishTime = finish[0];
-    for (int i = 1; i < n; i++)
-    {
-        if (start[i] >= finishTime)
-        {
-            printf("%d ", start[i]);
-            finishTime = start[i];
-        }
-    }
-}
+  char ch;
+  int freq;
+  struct node *left;
+  struct node *right;
+} node;
 
+node *heap[100];
+int heapSize = 0;
+
+void Insert(node *element)
+{
+  heapSize++;
+  heap[heapSize] = element;
+  int now = heapSize;
+  while (heap[now / 2]->freq > element->freq)
+  {
+    heap[now] = heap[now / 2];
+    now /= 2;
+  }
+  heap[now] = element;
+}
+node *DeleteMin()
+{
+  node *minElement, *lastElement;
+  int child, now;
+  minElement = heap[1];
+  lastElement = heap[heapSize--];
+  for (now = 1; now * 2 <= heapSize; now = child)
+  {
+    child = now * 2;
+    if (child != heapSize && heap[child + 1]->freq < heap[child]->freq)
+    {
+      child++;
+    }
+    if (lastElement->freq > heap[child]->freq)
+    {
+      heap[now] = heap[child];
+    }
+    else
+    {
+      break;
+    }
+  }
+  heap[now] = lastElement;
+  return minElement;
+}
+void print(node *temp, char *code)
+{
+  if (temp->left == NULL && temp->right == NULL)
+  {
+    printf("char %c code %s\n", temp->ch, code);
+    return;
+  }
+  int length = strlen(code);
+  char leftcode[10], rightcode[10];
+  strcpy(leftcode, code);
+  strcpy(rightcode, code);
+  leftcode[length] = '0';
+  leftcode[length + 1] = '\0';
+  rightcode[length] = '1';
+  rightcode[length + 1] = '\0';
+  print(temp->left, leftcode);
+  print(temp->right, rightcode);
+}
 int main()
 {
-    int n;
-    printf("Enter the number of activities\n");
-    scanf("%d", &n);
-    int start[n], finish[n];
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d%d", &start[i], &finish[i]);
-    }
-    bubbleSort(finish, start, n);
-    Activity(start, finish, n);
-}
-// OUTPUT
-/*
-6
-1 2
-3 4
-0 6
-5 7
-8 9
-5 9
-*/
-// Test Driven Code -- only for testing
 
-// int n=6;
-// int start[]={1,3,0,5,8,5};
-// int finish[]={2,4,6,7,9,9};
-// bubbleSort(finish,start,n);
+  heap[0] = (node *)malloc(sizeof(node));
+  heap[0]->freq = 0;
+  int n;
+  printf("Enter the no of characters: ");
+  scanf("%d", &n);
+  printf("Enter the characters and their frequencies: ");
+  char ch;
+  int freq, i;
+
+  for (i = 0; i < n; i++)
+  {
+    scanf(" %c", &ch);
+    scanf("%d", &freq);
+    node *temp = (node *)malloc(sizeof(node));
+    temp->ch = ch;
+    temp->freq = freq;
+    temp->left = temp->right = NULL;
+    Insert(temp);
+  }
+  if (n == 1)
+  {
+    printf("char %c code 0\n", ch);
+    return 0;
+  }
+  for (i = 0; i < n - 1; i++)
+  {
+    node *left = DeleteMin();
+    node *right = DeleteMin();
+    node *temp = (node *)malloc(sizeof(node));
+    temp->ch = 0;
+    temp->left = left;
+    temp->right = right;
+    temp->freq = left->freq + right->freq;
+    Insert(temp);
+  }
+  node *tree = DeleteMin();
+  char code[10];
+  code[0] = '\0';
+  print(tree, code);
+}

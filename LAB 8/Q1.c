@@ -1,162 +1,80 @@
 #include <stdio.h>
-#include <stdlib.h>
-
-#define MAX_TREE_HT 50
-
-struct MinHNode {
-  char item;
-  unsigned freq;
-  struct MinHNode *left, *right;
-};
-
-struct MinHeap {
-  unsigned size;
-  unsigned capacity;
-  struct MinHNode **array;
-};
-struct MinHNode *newNode(char item, unsigned freq) {
-  struct MinHNode *temp = (struct MinHNode *)malloc(sizeof(struct MinHNode));
-
-  temp->left = temp->right = NULL;
-  temp->item = item;
-  temp->freq = freq;
-
-  return temp;
+void swap(int a, int b)
+{
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
 }
-struct MinHeap *createMinH(unsigned capacity) {
-  struct MinHeap *minHeap = (struct MinHeap *)malloc(sizeof(struct MinHeap));
+void knapsack(int n, float weight[], float profit[], float capacity)
+{
+    float x[n], tp = 0;
+    int i, j, u;
+    u = capacity;
 
-  minHeap->size = 0;
+    for (i = 0; i < n; i++)
+        x[i] = 0.0;
 
-  minHeap->capacity = capacity;
+    for (i = 0; i < n; i++)
+    {
+        if (weight[i] > u)
+            break;
+        else
+        {
+            x[i] = 1.0;
+            tp = tp + profit[i];
+            u = u - weight[i];
+        }
+    }
 
-  minHeap->array = (struct MinHNode **)malloc(minHeap->capacity * sizeof(struct MinHNode *));
-  return minHeap;
-}
-void swapMinHNode(struct MinHNode **a, struct MinHNode **b) {
-  struct MinHNode *t = *a;
-  *a = *b;
-  *b = t;
-}
-void minHeapify(struct MinHeap *minHeap, int idx) {
-  int smallest = idx;
-  int left = 2 * idx + 1;
-  int right = 2 * idx + 2;
+    if (i < n)
+        x[i] = u / weight[i];
 
-  if (left < minHeap->size && minHeap->array[left]->freq < minHeap->array[smallest]->freq)
-    smallest = left;
+    tp = tp + (x[i] * profit[i]);
 
-  if (right < minHeap->size && minHeap->array[right]->freq < minHeap->array[smallest]->freq)
-    smallest = right;
+    printf("\nThe result vector is:- ");
+    for (i = 0; i < n; i++)
+        printf("%f\t", x[i]);
 
-  if (smallest != idx) {
-    swapMinHNode(&minHeap->array[smallest], &minHeap->array[idx]);
-    minHeapify(minHeap, smallest);
-  }
-}
-int checkSizeOne(struct MinHeap *minHeap) {
-  return (minHeap->size == 1);
-}
-struct MinHNode *extractMin(struct MinHeap *minHeap) {
-  struct MinHNode *temp = minHeap->array[0];
-  minHeap->array[0] = minHeap->array[minHeap->size - 1];
-
-  --minHeap->size;
-  minHeapify(minHeap, 0);
-
-  return temp;
-}
-void insertMinHeap(struct MinHeap *minHeap, struct MinHNode *minHeapNode) {
-  ++minHeap->size;
-  int i = minHeap->size - 1;
-
-  while (i && minHeapNode->freq < minHeap->array[(i - 1) / 2]->freq) {
-    minHeap->array[i] = minHeap->array[(i - 1) / 2];
-    i = (i - 1) / 2;
-  }
-  minHeap->array[i] = minHeapNode;
+    printf("\nMaximum profit is:- %0.01f", tp);
 }
 
-void buildMinHeap(struct MinHeap *minHeap) {
-  int n = minHeap->size - 1;
-  int i;
+int main()
+{
+    int num;
+    printf("\nEnter the no. of objects:- ");
+    scanf("%d", &num);
+    float weight[num], profit[num], capacity;
+    int i, j;
+    float ratio[num], temp;
 
-  for (i = (n - 1) / 2; i >= 0; --i)
-    minHeapify(minHeap, i);
-}
+    printf("\nEnter the wts and profits of each object:- ");
+    for (i = 0; i < num; i++)
+    {
+        scanf("%f %f", &weight[i], &profit[i]);
+    }
 
-int isLeaf(struct MinHNode *root) {
-  return !(root->left) && !(root->right);
-}
+    printf("\nEnter the capacity of knapsack:- ");
+    scanf("%f", &capacity);
 
-struct MinHeap *createAndBuildMinHeap(char item[], int freq[], int size) {
-  struct MinHeap *minHeap = createMinH(size);
+    for (i = 0; i < num; i++)
+    {
+        ratio[i] = profit[i] / weight[i];
+    }
 
-  for (int i = 0; i < size; ++i)
-    minHeap->array[i] = newNode(item[i], freq[i]);
+    for (i = 0; i < num; i++)
+    {
+        for (j = i + 1; j < num; j++)
+        {
+            if (ratio[i] < ratio[j])
+            {
+                swap(ratio[i], ratio[j]);
+                swap(weight[i], weight[j]);
+                swap(profit[i], profit[j]);
+            }
+        }
+    }
 
-  minHeap->size = size;
-  buildMinHeap(minHeap);
-
-  return minHeap;
-}
-
-struct MinHNode *buildHuffmanTree(char item[], int freq[], int size) {
-  struct MinHNode *left, *right, *top;
-  struct MinHeap *minHeap = createAndBuildMinHeap(item, freq, size);
-
-  while (!checkSizeOne(minHeap)) {
-    left = extractMin(minHeap);
-    right = extractMin(minHeap);
-
-    top = newNode('$', left->freq + right->freq);
-
-    top->left = left;
-    top->right = right;
-
-    insertMinHeap(minHeap, top);
-  }
-  return extractMin(minHeap);
-}
-
-void printHCodes(struct MinHNode *root, int arr[], int top) {
-  if (root->left) {
-    arr[top] = 0;
-    printHCodes(root->left, arr, top + 1);
-  }
-  if (root->right) {
-    arr[top] = 1;
-    printHCodes(root->right, arr, top + 1);
-  }
-  if (isLeaf(root)) {
-    printf("  %c   | ", root->item);
-    printArray(arr, top);
-  }
-}
-void HuffmanCodes(char item[], int freq[], int size) {
-  struct MinHNode *root = buildHuffmanTree(item, freq, size);
-
-  int arr[MAX_TREE_HT], top = 0;
-
-  printHCodes(root, arr, top);
-}
-
-void printArray(int arr[], int n) {
-  int i;
-  for (i = 0; i < n; ++i)
-    printf("%d", arr[i]);
-
-  printf("\n");
-}
-
-int main() {
-  char arr[] = {'A', 'B', 'C', 'D'};
-  int freq[] = {5, 1, 6, 3};
-
-  int size = sizeof(arr) / sizeof(arr[0]);
-
-  printf(" Char | Huffman code ");
-  printf("\n--------------------\n");
-
-  HuffmanCodes(arr, freq, size);
+    knapsack(num, weight, profit, capacity);
+    return (0);
 }

@@ -1,80 +1,67 @@
 #include <stdio.h>
-void swap(int a, int b)
+void swap(int *xp, int *yp)
 {
-    int temp;
-    temp = a;
-    a = b;
-    b = temp;
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
 }
-void knapsack(int n, float weight[], float profit[], float capacity)
+void bubbleSort(int arrF[], int arrS[], int n)
 {
-    float x[n], tp = 0;
-    int i, j, u;
-    u = capacity;
-
-    for (i = 0; i < n; i++)
-        x[i] = 0.0;
-
-    for (i = 0; i < n; i++)
+    int i, j;
+    for (i = 0; i < n - 1; i++)
     {
-        if (weight[i] > u)
-            break;
-        else
+        for (j = 0; j < n - i - 1; j++)
         {
-            x[i] = 1.0;
-            tp = tp + profit[i];
-            u = u - weight[i];
+            if (arrF[j] > arrF[j + 1])
+            {
+                swap(&arrF[j], &arrF[j + 1]);
+                swap(&arrS[j], &arrS[j + 1]);
+            }
         }
     }
-
-    if (i < n)
-        x[i] = u / weight[i];
-
-    tp = tp + (x[i] * profit[i]);
-
-    printf("\nThe result vector is:- ");
-    for (i = 0; i < n; i++)
-        printf("%f\t", x[i]);
-
-    printf("\nMaximum profit is:- %0.01f", tp);
+}
+void Activity(int start[], int finish[], int n)
+{
+    int i = 0;
+    printf("%d ", i);
+    int startTime = start[0];
+    int finishTime = finish[0];
+    for (int i = 1; i < n; i++)
+    {
+        if (start[i] >= finishTime)
+        {
+            printf("%d ", start[i]);
+            finishTime = start[i];
+        }
+    }
 }
 
 int main()
 {
-    int num;
-    printf("\nEnter the no. of objects:- ");
-    scanf("%d", &num);
-    float weight[num], profit[num], capacity;
-    int num, i, j;
-    float ratio[num], temp;
-
-    printf("\nEnter the wts and profits of each object:- ");
-    for (i = 0; i < num; i++)
+    int n;
+    printf("Enter the number of activities\n");
+    scanf("%d", &n);
+    int start[n], finish[n];
+    for (int i = 0; i < n; i++)
     {
-        scanf("%f %f", &weight[i], &profit[i]);
+        scanf("%d%d", &start[i], &finish[i]);
     }
-
-    printf("\nEnter the capacity of knapsack:- ");
-    scanf("%f", &capacity);
-
-    for (i = 0; i < num; i++)
-    {
-        ratio[i] = profit[i] / weight[i];
-    }
-
-    for (i = 0; i < num; i++)
-    {
-        for (j = i + 1; j < num; j++)
-        {
-            if (ratio[i] < ratio[j])
-            {
-                swap(ratio[i], ratio[j]);
-                swap(weight[i], weight[j]);
-                swap(profit[i], profit[j]);
-            }
-        }
-    }
-
-    knapsack(num, weight, profit, capacity);
-    return (0);
+    bubbleSort(finish, start, n);
+    Activity(start, finish, n);
 }
+// OUTPUT
+/*
+6
+1 2
+3 4
+0 6
+5 7
+8 9
+5 9
+*/
+// Test Driven Code -- only for testing
+
+// int n=6;
+// int start[]={1,3,0,5,8,5};
+// int finish[]={2,4,6,7,9,9};
+// bubbleSort(finish,start,n);
