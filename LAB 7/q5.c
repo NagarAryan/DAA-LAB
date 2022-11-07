@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 int main()
 {
     int arrival_time[10], burst_time[10], temp[10];
