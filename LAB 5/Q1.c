@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
-int binarySearch(int arr[], int low, int high, int key)
-{
+int binarySearch(int arr[], int low, int high, int key){
     int mid = (low + high) / 2;
     if (arr[mid] == key)
         return mid;
@@ -12,21 +11,16 @@ int binarySearch(int arr[], int low, int high, int key)
         return binarySearch(arr, mid + 1, high, key);
     return -1;
 }
-void swap(int *a, int *b)
-{
+void swap(int *a, int *b){
     int temp = *a;
     *a = *b;
     *b = temp;
 }
-void bubbleSort(int arr[], int n)
-{
+void bubbleSort(int arr[], int n){
     int i, j;
-    for (i = 0; i < n - 1; i++)
-    {
-        for (j = 0; j < n - i - 1; j++)
-        {
-            if (arr[j] > arr[j + 1])
-            {
+    for (i = 0; i < n - 1; i++){
+        for (j = 0; j < n - i - 1; j++){
+            if (arr[j] > arr[j + 1]){
                 swap(&arr[j], &arr[j + 1]);
             }
         }
@@ -36,11 +30,9 @@ void tabularOutput()
 {
     printf("Sl no.\t\tn\t\tTime Complexity\n");
     int count = 1;
-    for (int i = 50000; i <= 100000; i += 5000)
-    {
+    for (int i = 50000; i <= 100000; i += 5000){
         int *arr = (int *)malloc(i * sizeof(int));
-        for (int j = 0; j < i; j++)
-        {
+        for (int j = 0; j < i; j++){
             arr[j] = rand() % i;
         }
         bubbleSort(arr, i);
@@ -52,8 +44,7 @@ void tabularOutput()
         count++;
     }
 }
-int main()
-{
+int main(){
     tabularOutput();
     return 0;
 }
