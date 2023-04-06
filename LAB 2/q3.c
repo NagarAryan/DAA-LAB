@@ -21,22 +21,22 @@ void inorderTraverse(struct Node *root)
     inorderTraverse(root->right);
 }
 
-int  maxElement(struct Node*root){
-    if(root->right==NULL){
+int maxElement(struct Node *root)
+{
+    if (root->right == NULL)
+    {
         return root->data;
-
     }
-  maxElement(root->right);
-
+    maxElement(root->right);
 }
 
-int  minElement(struct Node*root){
-    if(root->left==NULL){
+int minElement(struct Node *root)
+{
+    if (root->left == NULL)
+    {
         return root->data;
-
     }
-  minElement(root->left);
-
+    minElement(root->left);
 }
 
 struct Node *insert(struct Node *root, int data)
@@ -92,14 +92,17 @@ int main()
         else if (input == 2)
         {
             inorderTraverse(root);
-        }else if(input==3){
-            int res=maxElement(root);
-            printf("%d\n",res);
-        }else if(input==4){
-            int res=minElement(root);
-            printf("%d\n",res);
+        }
+        else if (input == 3)
+        {
+            int res = maxElement(root);
+            printf("%d\n", res);
+        }
+        else if (input == 4)
+        {
+            int res = minElement(root);
+            printf("%d\n", res);
         }
 
     } while (input != 0);
-
 }
